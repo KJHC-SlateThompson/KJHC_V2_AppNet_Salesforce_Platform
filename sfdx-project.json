@@ -1,0 +1,33 @@
+{
+  "packageDirectories": [
+    {
+      "path": "Exec",
+      "default": true
+    },
+    {
+      "path": "Automation"
+    },
+    {
+      "path": "Data"
+    },
+    {
+      "path": "Engine"
+    },
+    {
+      "path": "Integration"
+    },
+    {
+      "path": "Model"
+    },
+    {
+      "path": "Operation"
+    },
+    {
+      "path": "Tool"
+    }
+  ],
+  "name": "KJHC_V2_Salesforce_Platform_Project",
+  "namespace": "",
+  "sfdcLoginUrl": "https://login.salesforce.com",
+  "sourceApiVersion": "65.0"
+}
