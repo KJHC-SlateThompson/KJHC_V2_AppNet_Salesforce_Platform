@@ -1,29 +1,37 @@
 {
   "packageDirectories": [
+
     {
-      "path": "Exec",
+      "path": "KJ_Exec",
       "default": true
     },
+
     {
-      "path": "Automation"
+      "path": "KJ_Automation"
     },
+
     {
-      "path": "Data"
+      "path": "KJ_Data"
     },
+
     {
-      "path": "Engine"
+      "path": "KJ_Engine"
     },
+
     {
-      "path": "Integration"
+      "path": "KJ_Integration"
     },
+
     {
-      "path": "Model"
+      "path": "KJ_Model"
     },
+
     {
-      "path": "Operation"
+      "path": "KJ_UI"
     },
+
     {
-      "path": "Tool"
+      "path": "KJ_Tool"
     }
   ],
   "name": "KJHC_V2_Salesforce_Platform_Project",
