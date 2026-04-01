@@ -7,7 +7,8 @@
 
 */
 public with sharing class KJ_Tool_TestDataFactory {
-    // Sector picklist setup
+    // -- Constants -------------------------------------------------------------------------------
+    // Pick list values
     public enum Sector {
         COMMERCIAL,
         RESIDENTIAL
@@ -17,7 +18,6 @@ public with sharing class KJ_Tool_TestDataFactory {
         Sector.COMMERCIAL  => 'Commercial'
     };
 
-    // -- Default Values --------------------------------------------------------------------------
     // Names
     public static final String DEFAULT_COMPANY_NAME = 'Test INC.';
     public static final String DEFAULT_FIRST_NAME = 'DefaultFirstName';
