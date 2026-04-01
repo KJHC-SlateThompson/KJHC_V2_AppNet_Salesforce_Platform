@@ -1,6 +1,5 @@
 /* 
 *   File: KJ_Tool_TestDataFactory.cls
-*   Version: [0.1.0 - Pre-alpha]
 *   Authors: Slate Thompson (Slate@kintyjones.com)
 *   Created: 2/10/2026
 *   Description: This class is built to allow for easy production of test/sample data for Apex tests or other use

@@ -1,6 +1,5 @@
 /* 
 *   File: KJ_Tool_LogEntry.cls
-*   Version: [0.1.0 - Pre-alpha]
 *   Authors: Slate Thompson (Slate@kintyjones.com)
 *   Created: 4/1/2026
 *   Description: This class is built to structure the data of log entries
@@ -19,75 +18,15 @@ public with sharing class KJ_Tool_LogEntry {
     public static final Level DEFAULT_LEVEL = Level.DEBUG;
 
     // -- Member Variables ------------------------------------------------------------------------
-    Level level;            
-    String context;
-    Datetime timestamp;
-    String message;
-    Object data;
+    private Level level;            
+    private String context;
+    private Datetime timestamp;
+    private String message;
+    private Object data;
 
     // -- Constructors ----------------------------------------------------------------------------
-    public KJ_Tool_LogEntry(Level initLevel, String initContext, Datetime initTimestamp, String initMessage, Object initData) {
-        initLogEntry(
-                        initLevel,
-                        initContext,
-                        initTimestamp,
-                        initMessage,
-                        initData
-        );
-    }
 
-    public KJ_Tool_LogEntry(Level initLevel, String initContext, String initMessage, Object initData) {
-        initLogEntry(
-                        initLevel, 
-                        initContext, 
-                        System.now(), 
-                        initMessage, 
-                        initData
-        );
-    }
-
-    public KJ_Tool_LogEntry(Level initLevel, String initMessage, Object initData) {
-        initLogEntry(
-                        initLevel, 
-                        DEFAULT_CONTEXT, 
-                        System.now(), 
-                        initMessage, 
-                        initData
-        );
-    }
-
-    public KJ_Tool_LogEntry(Level initLevel, String initMessage) {
-        initLogEntry(
-                        initLevel, 
-                        DEFAULT_CONTEXT, 
-                        System.now(), 
-                        initMessage, 
-                        null
-        );
-    }
-
-    
-    public KJ_Tool_LogEntry(String initMessage, Object initData) {
-        initLogEntry(
-                        DEFAULT_LEVEL, 
-                        DEFAULT_CONTEXT, 
-                        System.now(), 
-                        initMessage, 
-                        initData
-        );
-    }
-
-    public KJ_Tool_LogEntry(String initMessage) {
-        initLogEntry(
-                        DEFAULT_LEVEL, 
-                        DEFAULT_CONTEXT, 
-                        System.now(), 
-                        initMessage, 
-                        null
-        );
-    }
-
-    // -- Member Functions ------------------------------------------------------------------------
+    // Constructor base method
     private static void initLogEntry(Level initLevel, String initContext, Datetime initTimestamp, String initMessage, Object initData){
         level = initLevel;
         context = initContext;
@@ -95,4 +34,92 @@ public with sharing class KJ_Tool_LogEntry {
         message = initMessage;
         data = initData;
     }
+    public KJ_Tool_LogEntry(Level initLevel, String initContext, Datetime initTimestamp, String initMessage, Object initData) {
+        initLogEntry(
+            initLevel,
+            initContext,
+            initTimestamp,
+            initMessage,
+            initData
+        );
+    }
+
+    public KJ_Tool_LogEntry(Level initLevel, String initContext, String initMessage, Object initData) {
+        initLogEntry(
+            initLevel, 
+            initContext, 
+            System.now(), 
+            initMessage, 
+            initData
+        );
+    }
+
+    public KJ_Tool_LogEntry(Level initLevel, String initMessage, Object initData) {
+        initLogEntry(
+            initLevel, 
+            DEFAULT_CONTEXT, 
+            System.now(), 
+            initMessage, 
+            initData
+        );
+    }
+
+    public KJ_Tool_LogEntry(Level initLevel, String initMessage) {
+        initLogEntry(
+            initLevel, 
+            DEFAULT_CONTEXT, 
+            System.now(), 
+            initMessage, 
+            null
+        );
+    }
+
+    public KJ_Tool_LogEntry(Level initLevel, Object initData) {
+        initLogEntry(
+            initLevel, 
+            DEFAULT_CONTEXT, 
+            System.now(), 
+            null, 
+            initData
+        );
+    }
+
+    
+    public KJ_Tool_LogEntry(String initMessage, Object initData) {
+        initLogEntry(
+            DEFAULT_LEVEL, 
+            DEFAULT_CONTEXT, 
+            System.now(), 
+            initMessage, 
+            initData
+        );
+    }
+
+    public KJ_Tool_LogEntry(String initMessage) {
+        initLogEntry(
+            DEFAULT_LEVEL, 
+            DEFAULT_CONTEXT, 
+            System.now(), 
+            initMessage, 
+            null
+        );
+    }
+
+    public KJ_Tool_LogEntry(Object initData) {
+        initLogEntry(
+            DEFAULT_LEVEL, 
+            DEFAULT_CONTEXT, 
+            System.now(), 
+            null, 
+            initData
+        );
+    }
+
+    // -- Member Functions ------------------------------------------------------------------------
+    // Getters
+    public Level getLevel()         { return level; } 
+    public String getContext()      { return context; } 
+    public Datetime getTimestamp()  { return timestamp; } 
+    public String getMessage()      { return message; } 
+    public Object getData()         { return data; } 
 }
