@@ -21,8 +21,8 @@ public with sharing class KJ_Tool_Formatter {
 
         return result;
     }
-    
-    public static String formatLogEntry(KJ_Tool_LogEntry logEntry){
+
+    private static String formatLogEntry(KJ_Tool_LogEntry logEntry){
 
         // Building formatted log entry string
         String result = '';
@@ -37,7 +37,7 @@ public with sharing class KJ_Tool_Formatter {
 
         result += logEntry.getContext() + ' | ';
         result += logEntry.getTimestamp().format() + '\n';
-        
+
         // Formatting Message / Data
         if(logEntry.getMessage() != null){
             result += logEntry.getMessage() + '\n';
