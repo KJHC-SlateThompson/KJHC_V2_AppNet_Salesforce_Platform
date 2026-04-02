@@ -6,9 +6,6 @@
 
 */
 public with sharing class KJ_Tool_Logger {
-    // -- Constants -------------------------------------------------------------------------------
-    
-
     // -- Member Methods --------------------------------------------------------------------------
     // Level based logging methods
     public static void debug(String context, String message, Object data){
@@ -26,17 +23,12 @@ public with sharing class KJ_Tool_Logger {
     public static void debug(String context, String message){
         debug(context, message, null);
     }
-    public static void debug(String Context , Object data){
-        debug(context, null, data);
-    }
     public static void debug(String message){
-        debug(null, message, null)
+        debug(null, message, null);
     }
     public static void debug(Object data){
         debug(null, null, data);
     }
-
-
 
     public static void info(String context, String message, Object data){
         KJ_Tool_LogEntry logEntry = new KJ_Tool_LogEntry(
@@ -53,17 +45,12 @@ public with sharing class KJ_Tool_Logger {
     public static void info(String context, String message){
         info(context, message, null);
     }
-    public static void info(String context, Object data){
-        info(context, null, data);
-    }
     public static void info(String message){
         info(null, message, null);
     }
     public static void info(Object data){
         info(null, null, data);
     }
-
-
 
     public static void warn(String context, String message, Object data){
         KJ_Tool_LogEntry logEntry = new KJ_Tool_LogEntry(
@@ -80,17 +67,12 @@ public with sharing class KJ_Tool_Logger {
     public static void warn(String context, String message){
         warn(context, message, null);
     }
-    public static void warn(String context, Object data){
-        warn(context, null, data);
-    }
     public static void warn(String message){
         warn(null, message, null);
     }
     public static void warn(Object data){
         warn(null, null, data);
     }
-
-
 
     public static void error(String context, String message, Object data){
         KJ_Tool_LogEntry logEntry = new KJ_Tool_LogEntry(
@@ -106,10 +88,7 @@ public with sharing class KJ_Tool_Logger {
     }
     public static void error(String context, String message){
         error(context, message, null);
-    }
-    public static void error(String context, Object data){
-        error(context, null, data);
-    }
+    } 
     public static void error(String message){
         error(null, message, null);
     }
@@ -121,17 +100,10 @@ public with sharing class KJ_Tool_Logger {
 
     // Universal logging method
     private static void log(KJ_Tool_LogEntry logEntry){
-        String logOutputString; // will translate log entry to string using method here
-        System.debug(mapLogLevel(logEntry.getLevel()), logOutputString);
+        String logEntryOutputString = KJ_Tool_Formatter.format(logEntry); // will translate log entry to string using method here
+        LoggingLevel logEntryLevel = KJ_Tool_LogEntry.mapLogLevel(logEntry.getLevel());
+
+        System.debug(logEntryLevel, logEntryOutputString);
     }
 
-    // Method to map custom log level enum to native log level enum
-    private LoggingLevel mapLogLevel(KJ_Tool_LogEntry.Level logEntryLevel){
-        switch on logEntryLevel {
-            when ERROR { return LoggingLevel.ERROR; }
-            when WARN { return LoggingLevel.WARN; }
-            when INFO { return LoggingLevel.INFO; }
-            when else { return LoggingLevel.DEBUG; }
-        }
-    }
 }

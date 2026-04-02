@@ -25,15 +25,6 @@ public with sharing class KJ_Tool_LogEntry {
     private Object data;
 
     // -- Constructors ----------------------------------------------------------------------------
-
-    // Constructor base method
-    private static void initLogEntry(Level initLevel, String initContext, Datetime initTimestamp, String initMessage, Object initData){
-        level = initLevel;
-        context = initContext;
-        timestamp = initTimestamp;
-        message = initMessage;
-        data = initData;
-    }
     public KJ_Tool_LogEntry(Level initLevel, String initContext, Datetime initTimestamp, String initMessage, Object initData) {
         initLogEntry(
             initLevel,
@@ -84,7 +75,7 @@ public with sharing class KJ_Tool_LogEntry {
         );
     }
 
-    
+
     public KJ_Tool_LogEntry(String initMessage, Object initData) {
         initLogEntry(
             DEFAULT_LEVEL, 
@@ -116,10 +107,37 @@ public with sharing class KJ_Tool_LogEntry {
     }
 
     // -- Member Functions ------------------------------------------------------------------------
+    // Constructor base method
+    private void initLogEntry(Level initLevel, String initContext, Datetime initTimestamp, String initMessage, Object initData){
+        level = initLevel;
+        context = initContext;
+        timestamp = initTimestamp;
+        message = initMessage;
+        data = initData;
+    }
+
     // Getters
     public Level getLevel()         { return level; } 
     public String getContext()      { return context; } 
     public Datetime getTimestamp()  { return timestamp; } 
     public String getMessage()      { return message; } 
     public Object getData()         { return data; } 
+
+    // Method to map custom logEntry level enum to native log level enum and vice versa
+    public static LoggingLevel mapLogLevel(KJ_Tool_LogEntry.Level logEntryLevel){
+        switch on logEntryLevel {
+            when ERROR { return LoggingLevel.ERROR; }
+            when WARN { return LoggingLevel.WARN; }
+            when INFO { return LoggingLevel.INFO; }
+            when else { return LoggingLevel.DEBUG; }
+        }
+    }
+    public static KJ_Tool_LogEntry.Level mapLogLevel(LoggingLevel logLevel){
+        switch on logLevel {
+            when ERROR { return KJ_Tool_LogEntry.Level.ERROR; }
+            when WARN { return KJ_Tool_LogEntry.Level.WARN; }
+            when INFO { return KJ_Tool_LogEntry.Level.INFO; }
+            when else { return KJ_Tool_LogEntry.Level.DEBUG; }
+        }
+    }
 }
