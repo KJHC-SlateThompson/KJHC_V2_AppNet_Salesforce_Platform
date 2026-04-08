@@ -51,7 +51,8 @@ public with sharing class KJ_Tool_Formatter {
 
         if(logEntryContext == null){
             result += 'UNSPECIFIED';
-        } else {
+        } 
+        else{
             result += logEntryContext;
         }
 
@@ -63,7 +64,8 @@ public with sharing class KJ_Tool_Formatter {
 
         if(logEntryTimestamp == null){
             result += 'UNSPECIFIED';
-        } else {
+        } 
+        else{
             result += logEntryTimestamp.format();
         }
         result += HORIZONTAL_DELIMITER + '\n\N'; //end of line 1 of log entry string
