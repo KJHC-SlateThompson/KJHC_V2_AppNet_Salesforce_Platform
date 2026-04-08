@@ -48,8 +48,9 @@ KJ_Tool_
                 void
 
     LogEntry.
-        enum Level.
-            values: DEBUG, INFO, WARN, ERROR
+        + enum Level.
+            enumerators
+                DEBUG, INFO, WARN, ERROR;
         
         - Level level
         - String context
@@ -151,14 +152,14 @@ KJ_Tool_
             return type
                 Customer_Property
 
-        + createTest_HVAC_Unit 
+        + createTest_HVAC_Unit()
             parameters
                 none;
                 Id membershipArg, Id customerPropertyArg;
             return type
                 HVAC_Unit
 
-        + createTestMembership 
+        + createTestMembership()
             parameters
                 none;
                 Id memberAccountArg;

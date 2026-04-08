@@ -7,6 +7,9 @@
 */
 
 public with sharing class KJ_Tool_Formatter {
+    // -- Constants -------------------------------------------------------------------------------
+    public static final String HORIZONTAL_DELIMITER = ';  ';
+    public static final String VERTICAL_DELIMITER = '\n========================================\n';
 
     // -- Member Methods --------------------------------------------------------------------------
     public static String format(Object formatTarget){
@@ -14,6 +17,7 @@ public with sharing class KJ_Tool_Formatter {
 
         if (formatTarget == null){
             result = null;
+            return result;
         }
         if (formatTarget instanceof KJ_Tool_LogEntry){
             result = formatLogEntry((KJ_Tool_LogEntry) formatTarget);
@@ -23,28 +27,63 @@ public with sharing class KJ_Tool_Formatter {
     }
 
     private static String formatLogEntry(KJ_Tool_LogEntry logEntry){
+        String result;
+        result = '\n\n\nL O G   E N T R Y' + VERTICAL_DELIMITER;
 
-        // Building formatted log entry string
-        String result = '';
-
-        // formatting line 1/header of result string
-        switch on logEntry.getLevel() {
-            when ERROR { result += 'ERROR | '; }
-            when WARN { result += 'WARN | '; }
-            when INFO { result += 'INFO | '; }
-            when else { result += 'DEBUG | '; }
+        // formatting level
+        KJ_Tool_LogEntry.Level logEntryLevel = logEntry.getLevel();
+        result += 'Level: ';
+        
+        switch on logEntryLevel{
+            when ERROR { result += 'ERROR'; }
+            when WARN { result += 'WARN'; }
+            when INFO { result += 'INFO'; }
+            when DEBUG { result += 'DEBUG'; }
+            when else { result += 'UNSPECIFIED'; }
         }
 
-        result += logEntry.getContext() + ' | ';
-        result += logEntry.getTimestamp().format() + '\n';
+        result += HORIZONTAL_DELIMITER;
 
-        // Formatting Message / Data
-        if(logEntry.getMessage() != null){
-            result += logEntry.getMessage() + '\n';
+
+        // formatting context
+        String logEntryContext = logEntry.getContext(); 
+        result += 'Context: ';
+
+        if(logEntryContext == null){
+            result += 'UNSPECIFIED';
+        } else {
+            result += logEntryContext;
         }
-        if(logEntry.getData() != null){
-            result += format(logEntry.getData()) + '\n';
+
+        result += HORIZONTAL_DELIMITER;
+    
+        // formatting timestamp
+        Datetime logEntryTimestamp = logEntry.getTimestamp();
+        result += 'Timestamp: ';
+
+        if(logEntryTimestamp == null){
+            result += 'UNSPECIFIED';
+        } else {
+            result += logEntryTimestamp.format();
         }
+        result += HORIZONTAL_DELIMITER + '\n\N'; //end of line 1 of log entry string
+
+        // formatting message / data
+        String logEntryMessage = logEntry.getMessage();
+        Object logEntryData = logEntry.getData();
+
+        if(logEntryMessage != null){
+            result += 'Message:\n' + logEntryMessage;
+            if(logEntryData != null){
+                result += '\n';
+            }
+        }
+
+        if(logEntryData != null){
+            result += 'Data: \n' + format(logEntryData);
+        }
+
+        result += VERTICAL_DELIMITER;
 
         return result;
     }

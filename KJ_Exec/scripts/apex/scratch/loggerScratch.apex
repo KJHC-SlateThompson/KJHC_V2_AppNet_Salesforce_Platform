@@ -1,0 +1,1 @@
+KJ_Tool_Logger.debug('Here is the first test of the logger tool');
