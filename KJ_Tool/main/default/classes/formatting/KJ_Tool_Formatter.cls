@@ -9,30 +9,31 @@
 public with sharing class KJ_Tool_Formatter {
     //*-- Constants -------------------------------------------------------------------------------
     public static final String HORIZONTAL_DELIMITER = '; ';
-    public static final String VERTICAL_DELIMITER = '\n========================================\n';
+    public static final String VERTICAL_DELIMITER = '\n===============================================================================================\n';
 
     //*-- Member Methods --------------------------------------------------------------------------
     //* To String
-
     public static String toString (KJ_Tool_Origin targetOrigin){
         String result;
 
-        switch on targetOrigin.sourceType{
-            when KJ_Tool_Origin.SourceType.APEX { result = targetOrigin.className + '.' + targetOrigin.methodName}
-            when KJ_Tool_Origin.SourceType.RECORD { result = targetOrigin.objectName + ': ' + targetOrigin.recordId}
-            when else { result = 'UNSPECIFIED' }
+        if (targetOrigin == null){
+            return 'UNSPECIFIED';
         }
-        
+        switch on targetOrigin.sourceType{
+            when APEX   { result = targetOrigin.fileName + ': ' + targetOrigin.className + '.' + targetOrigin.methodName; }
+            when RECORD { result = targetOrigin.objectName + ': ' + targetOrigin.recordId; }
+            when else   { result = 'UNSPECIFIED'; }
+        }
         return result;
     }
 
     public static String toString(KJ_Tool_LogEntry.Level targetLevel){
         switch on targetLevel{
-            when LogEntry.Level.ERROR { return 'ERROR'; }
-            when LogEntry.Level.WARN { return 'WARN'; }
-            when LogEntry.Level.INFO { return 'INFO'; }
-            when LogEntry.Level.DEBUG { return 'DEBUG'; }
-            when else { return 'UNSPECIFIED'; }
+            when ERROR  { return 'ERROR'; }
+            when WARN   { return 'WARN'; }
+            when INFO   { return 'INFO'; }
+            when DEBUG  { return 'DEBUG'; }
+            when else   { return 'UNSPECIFIED'; }
         }
     }
 
@@ -42,12 +43,12 @@ public with sharing class KJ_Tool_Formatter {
 
 
         result += 'Level: ';
-        result += toString(logEntry.getLevel())
+        result += toString(logEntry.getLevel());
         result += HORIZONTAL_DELIMITER;
  
 
         result += 'Origin: ';
-        result += toString(logEntry.getOrigin())
+        result += toString(logEntry.getOrigin());
         result += HORIZONTAL_DELIMITER;
     
 
@@ -75,9 +76,9 @@ public with sharing class KJ_Tool_Formatter {
         return result;
     }
 
-    public String toString(KJ_Tool_Exception e){
+    public static String toString(KJ_Tool_Exception e){
         String result;
-        result += 'EXCEPTION\n'
+        result = 'EXCEPTION:\n';
         
         result += 'Code: ' + toString(e.code) + '\n';
         result += 'Level: ' + toString(e.level) + '\n';
@@ -88,16 +89,16 @@ public with sharing class KJ_Tool_Formatter {
     }
      public static String toString(KJ_Tool_Exception.Code targetCode){
         switch on targetCode{
-            when KJ_Tool_Exception.Code.TEST_EXCEPTION { return 'TEST_EXCEPTION'; }
-            when else { return 'UNSPECIFIED'}
+            when TEST_EXCEPTION { return 'TEST_EXCEPTION'; }
+            when else           { return 'UNSPECIFIED'; }
         }
     }
      public static String toString(KJ_Tool_Exception.Level targetLevel){
         switch on targetLevel{
-            when KJ_Tool_Exception.Level.LOW { return 'LOW'; }
-            when KJ_Tool_Exception.Level.HIGH { return 'HIGH'; }
-            when KJ_Tool_Exception.Level.FATAL { return 'FATAL'; }
-            when else { return 'UNSPECIFIED'}
+            when LOW    { return 'LOW'; }
+            when HIGH   { return 'HIGH'; }
+            when FATAL  { return 'FATAL'; }
+            when else   { return 'UNSPECIFIED'; }
         }
     }
 
@@ -107,7 +108,7 @@ public with sharing class KJ_Tool_Formatter {
             KJ_Tool_LogEntry.mapToLogEntryLevel(e.level),
             e.origin,
             toString(e)
-        )
+        );
 
         return result;
     }

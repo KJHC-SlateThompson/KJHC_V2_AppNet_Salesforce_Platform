@@ -14,16 +14,18 @@ public with sharing class KJ_Tool_Origin {
 
     //*-- Member Variables ------------------------------------------------------------------------
     public SourceType sourceType    { get; private set; }
+    public String fileName          { get; private set; }
     public String className         { get; private set; }
     public String methodName        { get; private set; }
     public String objectName        { get; private set; }
     public Id recordId              { get; private set; }
 
     //*-- Member Methods --------------------------------------------------------------------------
-    private static KJ_Tool_Origin build(SourceType newSourceType, String newClassName, String newMethodName, String newObjectName, String newRecordId){
+    private static KJ_Tool_Origin build(SourceType newSourceType, String newFileName, String newClassName, String newMethodName, String newObjectName, String newRecordId){
         KJ_Tool_Origin newOrigin = new KJ_Tool_Origin();
 
         newOrigin.sourceType = newSourceType;
+        newOrigin.className = newFileName;
         newOrigin.className = newClassName;
         newOrigin.methodName = newMethodName;
         newOrigin.recordId = newRecordId;
@@ -32,9 +34,10 @@ public with sharing class KJ_Tool_Origin {
         return newOrigin;
     }
 
-    public static KJ_Tool_Origin fromApex(String className, String methodName){
-        KJ_Tool_Origin newOrigin = KJ_tool_Origin.build(
+    public static KJ_Tool_Origin fromApex(String fileName, String className, String methodName){
+        KJ_Tool_Origin newOrigin = KJ_Tool_Origin.build(
             SourceType.APEX,
+            filename,
             className,
             methodName,
             null,
@@ -45,7 +48,8 @@ public with sharing class KJ_Tool_Origin {
 
     public static KJ_Tool_Origin fromRecord(String objectName, Id recordId){
         KJ_Tool_Origin newOrigin = KJ_Tool_Origin.build(
-            SourceType.APEX,
+            SourceType.RECORD,
+            null,
             null,
             null,
             objectName,

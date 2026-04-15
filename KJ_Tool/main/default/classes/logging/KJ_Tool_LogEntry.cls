@@ -18,32 +18,32 @@ public with sharing class KJ_Tool_LogEntry {
 
     public static Level mapToLogEntryLevel(LoggingLevel logLevel){
         switch on logLevel {
-            when ERROR  { Level.ERROR; }
-            when WARN   { Level.WARN; }
-            when INFO   { Level.INFO; }
-            when else   { Level.DEBUG; }
+            when ERROR  { return Level.ERROR; }
+            when WARN   { return Level.WARN; }
+            when INFO   { return Level.INFO; }
+            when else   { return Level.DEBUG; }
         }
     }
     public static Level mapToLogEntryLevel(KJ_Tool_Exception.Level eLevel){
         switch on eLevel {
-            when KJ_Tool_Exception.Level.LOW    { return Level.WARN; }
-            when KJ_Tool_Exception.Level.HIGH   { return Level.ERROR; }
-            when KJ_Tool_Exception.Level.FATAL  { return Level.ERROR; }
-            when else                           { return KJ_Tool_LogEntry.Level.ERROR; }
+            when LOW    { return Level.WARN; }
+            when HIGH   { return Level.ERROR; }
+            when FATAL  { return Level.ERROR; }
+            when else   { return KJ_Tool_LogEntry.Level.ERROR; }
         }
     }
     public static LoggingLevel mapToLoggingLevel(Level logEntryLevel){
         switch on logEntryLevel {
-            when Level.ERROR    { return LoggingLevel.ERROR; }
-            when Level.INFO     { return LoggingLevel.INFO; }
-            when Level.WARN     { return LoggingLevel.WARN; }
-            when else           { return LoggingLevel.DEBUG; }
+            when ERROR    { return LoggingLevel.ERROR; }
+            when INFO     { return LoggingLevel.INFO; }
+            when WARN     { return LoggingLevel.WARN; }
+            when else     { return LoggingLevel.DEBUG; }
         }
     }
 
 
     public static final String DEFAULT_MESSAGE = 'NO MESSAGE PROVIDED';
-    public static final KJ_Tool_Origin DEFAULT_ORIGIN = KJ_Tool_Origin.fromApex('KJ_Tool_LogEntry','DEFAULT_ORIGIN');
+    public static final KJ_Tool_Origin DEFAULT_ORIGIN = KJ_Tool_Origin.fromApex('KJ_Tool_LogEntry.cls','KJ_Tool_LogEntry','DEFAULT_ORIGIN');
 
     //*-- Member Variables ------------------------------------------------------------------------
     private Level level;            
@@ -106,6 +106,8 @@ public with sharing class KJ_Tool_LogEntry {
     // Constructor base method
     private void initLogEntry(Level initLevel, KJ_Tool_Origin initOrigin, Datetime initTimestamp, String initMessage){
         level = initLevel;
+        
+        //if(origin != null){
         origin = initOrigin;
         timestamp = initTimestamp;
         message = initMessage;

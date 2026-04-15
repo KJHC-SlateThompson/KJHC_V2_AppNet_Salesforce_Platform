@@ -59,10 +59,9 @@ public with sharing class KJ_Tool_Exception extends Exception{
     }
 
     // Setters
-    public void setMessage(String newMessage){
+    public override void setMessage(String newMessage){
         message = newMessage;
     }
-
     public void setOrigin(KJ_Tool_Origin newOrigin){
         origin = newOrigin;
     }
