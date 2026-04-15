@@ -8,10 +8,10 @@
 public with sharing class KJ_Tool_Logger {
     //*-- Member Methods --------------------------------------------------------------------------
     // Level based logging methods
-    public static void debug(String context, String message, Object data){
+    public static void debug(KJ_Tool_Origin origin, String message, Object data){
         KJ_Tool_LogEntry logEntry = new KJ_Tool_LogEntry(
             KJ_Tool_LogEntry.Level.DEBUG,
-            context,
+            origin,
             message,
             data
         );
@@ -20,20 +20,17 @@ public with sharing class KJ_Tool_Logger {
     public static void debug(String message, Object data){
         debug(null, message, data);
     }
-    public static void debug(String context, String message){
-        debug(context, message, null);
+    public static void debug(KJ_Tool_Origin origin, String message){
+        debug(origin, message, null);
     }
     public static void debug(String message){
         debug(null, message, null);
     }
-    public static void debug(Object data){
-        debug(null, null, data);
-    }
 
-    public static void info(String context, String message, Object data){
+    public static void info(KJ_Tool_Origin origin, String message, Object data){
         KJ_Tool_LogEntry logEntry = new KJ_Tool_LogEntry(
             KJ_Tool_LogEntry.Level.INFO,
-            context,
+            origin,
             message,
             data
         );
@@ -42,20 +39,17 @@ public with sharing class KJ_Tool_Logger {
     public static void info(String message, Object data){
         info(null, message, data);
     }
-    public static void info(String context, String message){
-        info(context, message, null);
+    public static void info(KJ_Tool_Origin origin, String message){
+        info(origin, message, null);
     }
     public static void info(String message){
         info(null, message, null);
     }
-    public static void info(Object data){
-        info(null, null, data);
-    }
 
-    public static void warn(String context, String message, Object data){
+    public static void warn(KJ_Tool_Origin origin, String message, Object data){
         KJ_Tool_LogEntry logEntry = new KJ_Tool_LogEntry(
             KJ_Tool_LogEntry.Level.WARN,
-            context,
+            origin,
             message,
             data
         );
@@ -64,20 +58,17 @@ public with sharing class KJ_Tool_Logger {
     public static void warn(String message, Object data){
         warn(null, message, data);
     }
-    public static void warn(String context, String message){
-        warn(context, message, null);
+    public static void warn(KJ_Tool_Origin origin, String message){
+        warn(origin, message, null);
     }
     public static void warn(String message){
         warn(null, message, null);
     }
-    public static void warn(Object data){
-        warn(null, null, data);
-    }
 
-    public static void error(String context, String message, Object data){
+    public static void error(KJ_Tool_Origin origin, String message, Object data){
         KJ_Tool_LogEntry logEntry = new KJ_Tool_LogEntry(
             KJ_Tool_LogEntry.Level.DEBUG,
-            context,
+            origin,
             message,
             data
         );
@@ -86,22 +77,18 @@ public with sharing class KJ_Tool_Logger {
     public static void error(String message, Object data){
         error(null, message, data);
     }
-    public static void error(String context, String message){
-        error(context, message, null);
+    public static void error(KJ_Tool_Origin origin, String message){
+        error(origin, message, null);
     } 
     public static void error(String message){
         error(null, message, null);
     }
-    public static void error(Object data){
-        error(null, null, data);
-    }
-
 
 
     // Universal logging method
     private static void log(KJ_Tool_LogEntry logEntry){
-        String logEntryOutputString = KJ_Tool_Formatter.format(logEntry); // will translate log entry to string using method here
-        LoggingLevel logEntryLevel = KJ_Tool_LogEntry.mapLogLevel(logEntry.getLevel());
+        String logEntryOutputString = KJ_Tool_Formatter.toString(logEntry); // will translate log entry to string using method here
+        LoggingLevel logEntryLevel = KJ_Tool_LogEntry.mapToLoggingLevel(logEntry.getLevel());
 
         System.debug(logEntryLevel, logEntryOutputString);
     }

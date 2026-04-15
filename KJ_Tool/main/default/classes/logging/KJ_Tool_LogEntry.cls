@@ -14,130 +14,107 @@ public with sharing class KJ_Tool_LogEntry {
         ERROR
     }
 
-    public static final String DEFAULT_CONTEXT = 'No Context';
     public static final Level DEFAULT_LEVEL = Level.DEBUG;
+
+    public static Level mapToLogEntryLevel(LoggingLevel logLevel){
+        switch on logLevel {
+            when ERROR  { Level.ERROR; }
+            when WARN   { Level.WARN; }
+            when INFO   { Level.INFO; }
+            when else   { Level.DEBUG; }
+        }
+    }
+    public static Level mapToLogEntryLevel(KJ_Tool_Exception.Level eLevel){
+        switch on eLevel {
+            when KJ_Tool_Exception.Level.LOW    { return Level.WARN; }
+            when KJ_Tool_Exception.Level.HIGH   { return Level.ERROR; }
+            when KJ_Tool_Exception.Level.FATAL  { return Level.ERROR; }
+            when else                           { return KJ_Tool_LogEntry.Level.ERROR; }
+        }
+    }
+    public static LoggingLevel mapToLoggingLevel(Level logEntryLevel){
+        switch on logEntryLevel {
+            when Level.ERROR    { return LoggingLevel.ERROR; }
+            when Level.INFO     { return LoggingLevel.INFO; }
+            when Level.WARN     { return LoggingLevel.WARN; }
+            when else           { return LoggingLevel.DEBUG; }
+        }
+    }
+
+
+    public static final String DEFAULT_MESSAGE = 'NO MESSAGE PROVIDED';
+    public static final KJ_Tool_Origin DEFAULT_ORIGIN = KJ_Tool_Origin.fromApex('KJ_Tool_LogEntry','DEFAULT_ORIGIN');
 
     //*-- Member Variables ------------------------------------------------------------------------
     private Level level;            
-    private String context;
+    private KJ_Tool_Origin origin;
     private Datetime timestamp;
     private String message;
-    private Object data;
 
-    //*-- Constructors ----------------------------------------------------------------------------
-    public KJ_Tool_LogEntry(Level initLevel, String initContext, Datetime initTimestamp, String initMessage, Object initData) {
+    //*-- Member Functions ------------------------------------------------------------------------
+    // Constructors
+    public KJ_Tool_LogEntry(Level initLevel, KJ_Tool_Origin initOrigin, Datetime initTimestamp, String initMessage) {
         initLogEntry(
             initLevel,
-            initContext,
+            initOrigin,
             initTimestamp,
-            initMessage,
-            initData
+            initMessage
         );
     }
-
-    public KJ_Tool_LogEntry(Level initLevel, String initContext, String initMessage, Object initData) {
+    public KJ_Tool_LogEntry(Level initLevel, KJ_Tool_Origin initOrigin, String initMessage) {
         initLogEntry(
             initLevel, 
-            initContext, 
+            initOrigin, 
             System.now(), 
-            initMessage, 
-            initData
+            initMessage
         );
     }
-
-    public KJ_Tool_LogEntry(Level initLevel, String initMessage, Object initData) {
-        initLogEntry(
-            initLevel, 
-            DEFAULT_CONTEXT, 
-            System.now(), 
-            initMessage, 
-            initData
-        );
-    }
-
     public KJ_Tool_LogEntry(Level initLevel, String initMessage) {
         initLogEntry(
             initLevel, 
-            DEFAULT_CONTEXT, 
+            DEFAULT_ORIGIN, 
             System.now(), 
-            initMessage, 
-            null
+            initMessage
         );
     }
-
-    public KJ_Tool_LogEntry(Level initLevel, Object initData) {
+    public KJ_Tool_LogEntry(Level initLevel) {
         initLogEntry(
             initLevel, 
-            DEFAULT_CONTEXT, 
+            DEFAULT_ORIGIN, 
             System.now(), 
-            null, 
-            initData
+            DEFAULT_MESSAGE
         );
     }
-
-
-    public KJ_Tool_LogEntry(String initMessage, Object initData) {
-        initLogEntry(
-            DEFAULT_LEVEL, 
-            DEFAULT_CONTEXT, 
-            System.now(), 
-            initMessage, 
-            initData
-        );
-    }
-
     public KJ_Tool_LogEntry(String initMessage) {
         initLogEntry(
             DEFAULT_LEVEL, 
-            DEFAULT_CONTEXT, 
+            DEFAULT_ORIGIN, 
             System.now(), 
-            initMessage, 
-            null
+            initMessage
         );
     }
 
-    public KJ_Tool_LogEntry(Object initData) {
+    public KJ_Tool_LogEntry() {
         initLogEntry(
             DEFAULT_LEVEL, 
-            DEFAULT_CONTEXT, 
+            DEFAULT_ORIGIN, 
             System.now(), 
-            null, 
-            initData
+            DEFAULT_MESSAGE
         );
     }
 
-    //*-- Member Functions ------------------------------------------------------------------------
     // Constructor base method
-    private void initLogEntry(Level initLevel, String initContext, Datetime initTimestamp, String initMessage, Object initData){
+    private void initLogEntry(Level initLevel, KJ_Tool_Origin initOrigin, Datetime initTimestamp, String initMessage){
         level = initLevel;
-        context = initContext;
+        origin = initOrigin;
         timestamp = initTimestamp;
         message = initMessage;
-        data = initData;
     }
 
     // Getters
-    public Level getLevel()         { return level; } 
-    public String getContext()      { return context; } 
-    public Datetime getTimestamp()  { return timestamp; } 
-    public String getMessage()      { return message; } 
-    public Object getData()         { return data; } 
+    public Level getLevel()             { return level; } 
+    public KJ_Tool_Origin getOrigin()   { return origin; } 
+    public Datetime getTimestamp()      { return timestamp; } 
+    public String getMessage()          { return message; } 
 
-    // Method to map custom logEntry level enum to native log level enum and vice versa
-    public static LoggingLevel mapLogLevel(KJ_Tool_LogEntry.Level logEntryLevel){
-        switch on logEntryLevel {
-            when ERROR { return LoggingLevel.ERROR; }
-            when WARN { return LoggingLevel.WARN; }
-            when INFO { return LoggingLevel.INFO; }
-            when else { return LoggingLevel.DEBUG; }
-        }
-    }
-    public static KJ_Tool_LogEntry.Level mapLogLevel(LoggingLevel logLevel){
-        switch on logLevel {
-            when ERROR { return KJ_Tool_LogEntry.Level.ERROR; }
-            when WARN { return KJ_Tool_LogEntry.Level.WARN; }
-            when INFO { return KJ_Tool_LogEntry.Level.INFO; }
-            when else { return KJ_Tool_LogEntry.Level.DEBUG; }
-        }
-    }
 }

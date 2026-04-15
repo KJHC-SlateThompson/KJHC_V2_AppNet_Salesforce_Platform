@@ -8,8 +8,10 @@
 public with sharing class KJ_Tool_Exception extends Exception{
     //*-- Constants -------------------------------------------------------------------------------
     public enum Code {
-        
+        TEST_EXCEPTION
     }
+
+
     public enum Level {
         LOW,
         HIGH,
@@ -19,8 +21,8 @@ public with sharing class KJ_Tool_Exception extends Exception{
     //*-- Member Variables ------------------------------------------------------------------------
     public Code code { get; private set; }
     public Level level { get; private set; }
-    public String message {get; private set; }
     public KJ_Tool_Origin origin {get; private set; }
+    public String message {get; private set; }
 
     //*-- Member Methods --------------------------------------------------------------------------
     // factory methods
@@ -56,5 +58,12 @@ public with sharing class KJ_Tool_Exception extends Exception{
         return fatal(code, message, null);
     }
 
+    // Setters
+    public void setMessage(String newMessage){
+        message = newMessage;
+    }
 
+    public void setOrigin(KJ_Tool_Origin newOrigin){
+        origin = newOrigin;
+    }
 }

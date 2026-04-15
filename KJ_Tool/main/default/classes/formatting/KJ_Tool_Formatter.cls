@@ -8,84 +8,106 @@
 
 public with sharing class KJ_Tool_Formatter {
     //*-- Constants -------------------------------------------------------------------------------
-    public static final String HORIZONTAL_DELIMITER = ';  ';
+    public static final String HORIZONTAL_DELIMITER = '; ';
     public static final String VERTICAL_DELIMITER = '\n========================================\n';
 
     //*-- Member Methods --------------------------------------------------------------------------
-    public static String toString(Object formatTarget){
-        String result = '';
+    //* To String
 
-        if (formatTarget == null){
-            result = null;
-            return result;
-        }
-        if (formatTarget instanceof KJ_Tool_LogEntry){
-            result = formatLogEntry((KJ_Tool_LogEntry) formatTarget);
-        }
+    public static String toString (KJ_Tool_Origin targetOrigin){
+        String result;
 
+        switch on targetOrigin.sourceType{
+            when KJ_Tool_Origin.SourceType.APEX { result = targetOrigin.className + '.' + targetOrigin.methodName}
+            when KJ_Tool_Origin.SourceType.RECORD { result = targetOrigin.objectName + ': ' + targetOrigin.recordId}
+            when else { result = 'UNSPECIFIED' }
+        }
+        
         return result;
     }
 
-    private static String formatLogEntry(KJ_Tool_LogEntry logEntry){
+    public static String toString(KJ_Tool_LogEntry.Level targetLevel){
+        switch on targetLevel{
+            when LogEntry.Level.ERROR { return 'ERROR'; }
+            when LogEntry.Level.WARN { return 'WARN'; }
+            when LogEntry.Level.INFO { return 'INFO'; }
+            when LogEntry.Level.DEBUG { return 'DEBUG'; }
+            when else { return 'UNSPECIFIED'; }
+        }
+    }
+
+    public static String toString(KJ_Tool_LogEntry logEntry){
         String result;
         result = '\n\n\nL O G   E N T R Y' + VERTICAL_DELIMITER;
 
-        // formatting level
-        KJ_Tool_LogEntry.Level logEntryLevel = logEntry.getLevel();
+
         result += 'Level: ';
-        
-        switch on logEntryLevel{
-            when ERROR { result += 'ERROR'; }
-            when WARN { result += 'WARN'; }
-            when INFO { result += 'INFO'; }
-            when DEBUG { result += 'DEBUG'; }
-            when else { result += 'UNSPECIFIED'; }
-        }
-
+        result += toString(logEntry.getLevel())
         result += HORIZONTAL_DELIMITER;
+ 
 
-
-        // formatting context
-        String logEntryContext = logEntry.getContext(); 
-        result += 'Context: ';
-
-        if(logEntryContext == null){
-            result += 'UNSPECIFIED';
-        } 
-        else{
-            result += logEntryContext;
-        }
-
+        result += 'Origin: ';
+        result += toString(logEntry.getOrigin())
         result += HORIZONTAL_DELIMITER;
     
-        // formatting timestamp
-        Datetime logEntryTimestamp = logEntry.getTimestamp();
-        result += 'Timestamp: ';
 
+        result += 'Timestamp: ';
+        Datetime logEntryTimestamp = logEntry.getTimestamp();
         if(logEntryTimestamp == null){
             result += 'UNSPECIFIED';
         } 
         else{
             result += logEntryTimestamp.format();
         }
-        result += HORIZONTAL_DELIMITER + '\n\N'; //end of line 1 of log entry string
+        result += HORIZONTAL_DELIMITER + '\n\n'; //end of line 1 of log entry string
 
-        // formatting message / data
+
+        result += 'Message: \n';
         String logEntryMessage = logEntry.getMessage();
-        Object logEntryData = logEntry.getData();
-
         if(logEntryMessage != null){
-            result += 'Message:\n' + logEntryMessage;
-            if(logEntryData != null){
-                result += '\n';
-            }
+            result += logEntryMessage;
+        } else {
+            result += 'UNSPECIFIED';
         }
-
-        if(logEntryData != null){
-            result += 'Data: \n' + format(logEntryData);
-        }
-
         result += VERTICAL_DELIMITER;
+
+
+        return result;
+    }
+
+    public String toString(KJ_Tool_Exception e){
+        String result;
+        result += 'EXCEPTION\n'
+        
+        result += 'Code: ' + toString(e.code) + '\n';
+        result += 'Level: ' + toString(e.level) + '\n';
+        result += 'Origin: (' + toString(e.origin) + ')\n';
+        result += 'Message: \n' + e.message + '\n';
+
+        return result;
+    }
+     public static String toString(KJ_Tool_Exception.Code targetCode){
+        switch on targetCode{
+            when KJ_Tool_Exception.Code.TEST_EXCEPTION { return 'TEST_EXCEPTION'; }
+            when else { return 'UNSPECIFIED'}
+        }
+    }
+     public static String toString(KJ_Tool_Exception.Level targetLevel){
+        switch on targetLevel{
+            when KJ_Tool_Exception.Level.LOW { return 'LOW'; }
+            when KJ_Tool_Exception.Level.HIGH { return 'HIGH'; }
+            when KJ_Tool_Exception.Level.FATAL { return 'FATAL'; }
+            when else { return 'UNSPECIFIED'}
+        }
+    }
+
+    //* To KJ_Tool_LogEntry
+    public KJ_Tool_LogEntry toLogEntry(KJ_Tool_Exception e){
+        KJ_Tool_LogEntry result = new KJ_Tool_LogEntry(
+            KJ_Tool_LogEntry.mapToLogEntryLevel(e.level),
+            e.origin,
+            toString(e)
+        )
 
         return result;
     }
