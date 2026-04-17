@@ -13,7 +13,6 @@ public with sharing class KJ_Tool_LogEntry {
         WARN,
         ERROR
     }
-
     public static final Level DEFAULT_LEVEL = Level.DEBUG;
 
     public static Level mapToLogEntryLevel(LoggingLevel logLevel){
@@ -42,8 +41,8 @@ public with sharing class KJ_Tool_LogEntry {
     }
 
 
-    public static final String DEFAULT_MESSAGE = 'NO MESSAGE PROVIDED';
-    public static final KJ_Tool_Origin DEFAULT_ORIGIN = KJ_Tool_Origin.fromApex('KJ_Tool_LogEntry.cls','KJ_Tool_LogEntry','DEFAULT_ORIGIN');
+    private static final String DEFAULT_MESSAGE = 'NO MESSAGE PROVIDED';
+    private static final KJ_Tool_Origin DEFAULT_ORIGIN = KJ_Tool_Origin.fromUnspecified();
 
     //*-- Member Variables ------------------------------------------------------------------------
     private Level level;            
@@ -107,8 +106,13 @@ public with sharing class KJ_Tool_LogEntry {
     private void initLogEntry(Level initLevel, KJ_Tool_Origin initOrigin, Datetime initTimestamp, String initMessage){
         level = initLevel;
         
-        //if(origin != null){
-        origin = initOrigin;
+        // Null check when assigning origin
+        if(origin != null){
+            origin = initOrigin;
+        } else {
+            origin = DEFAULT_ORIGIN;
+        }
+
         timestamp = initTimestamp;
         message = initMessage;
     }

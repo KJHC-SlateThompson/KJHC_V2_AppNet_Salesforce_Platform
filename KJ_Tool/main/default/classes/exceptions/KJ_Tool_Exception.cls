@@ -11,7 +11,6 @@ public with sharing class KJ_Tool_Exception extends Exception{
         TEST_EXCEPTION
     }
 
-
     public enum Level {
         LOW,
         HIGH,

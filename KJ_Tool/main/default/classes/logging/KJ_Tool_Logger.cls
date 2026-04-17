@@ -49,7 +49,7 @@ public with sharing class KJ_Tool_Logger {
 
     public static void error(KJ_Tool_Origin origin, String message){
         KJ_Tool_LogEntry logEntry = new KJ_Tool_LogEntry(
-            KJ_Tool_LogEntry.Level.DEBUG,
+            KJ_Tool_LogEntry.Level.ERROR,
             origin,
             message
         );

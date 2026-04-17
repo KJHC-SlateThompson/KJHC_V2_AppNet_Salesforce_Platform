@@ -12,31 +12,16 @@ public with sharing class KJ_Tool_Formatter {
     public static final String VERTICAL_DELIMITER = '\n===============================================================================================\n';
 
     //*-- Member Methods --------------------------------------------------------------------------
-    //* To String
+    //* toString()
+    // origin to string
     public static String toString (KJ_Tool_Origin targetOrigin){
-        String result;
-
-        if (targetOrigin == null){
-            return 'UNSPECIFIED';
-        }
         switch on targetOrigin.sourceType{
-            when APEX   { result = targetOrigin.fileName + ': ' + targetOrigin.className + '.' + targetOrigin.methodName; }
-            when RECORD { result = targetOrigin.objectName + ': ' + targetOrigin.recordId; }
-            when else   { result = 'UNSPECIFIED'; }
-        }
-        return result;
-    }
-
-    public static String toString(KJ_Tool_LogEntry.Level targetLevel){
-        switch on targetLevel{
-            when ERROR  { return 'ERROR'; }
-            when WARN   { return 'WARN'; }
-            when INFO   { return 'INFO'; }
-            when DEBUG  { return 'DEBUG'; }
+            when APEX   { return (targetOrigin.fileName + ': ' + targetOrigin.className + '.' + targetOrigin.methodName); }
+            when RECORD { return (targetOrigin.objectName + ': ' + targetOrigin.recordId); }
             when else   { return 'UNSPECIFIED'; }
         }
     }
-
+    // log entry to string
     public static String toString(KJ_Tool_LogEntry logEntry){
         String result;
         result = '\n\n\nL O G   E N T R Y' + VERTICAL_DELIMITER;
@@ -54,11 +39,11 @@ public with sharing class KJ_Tool_Formatter {
 
         result += 'Timestamp: ';
         Datetime logEntryTimestamp = logEntry.getTimestamp();
-        if(logEntryTimestamp == null){
-            result += 'UNSPECIFIED';
+        if(logEntryTimestamp != null){
+            result += logEntryTimestamp.format();
         } 
         else{
-            result += logEntryTimestamp.format();
+            result += 'UNSPECIFIED';
         }
         result += HORIZONTAL_DELIMITER + '\n\n'; //end of line 1 of log entry string
 
@@ -67,7 +52,8 @@ public with sharing class KJ_Tool_Formatter {
         String logEntryMessage = logEntry.getMessage();
         if(logEntryMessage != null){
             result += logEntryMessage;
-        } else {
+        } 
+        else {
             result += 'UNSPECIFIED';
         }
         result += VERTICAL_DELIMITER;
@@ -75,7 +61,16 @@ public with sharing class KJ_Tool_Formatter {
 
         return result;
     }
-
+    public static String toString(KJ_Tool_LogEntry.Level targetLevel){
+        switch on targetLevel{
+            when ERROR  { return 'ERROR'; }
+            when WARN   { return 'WARN'; }
+            when INFO   { return 'INFO'; }
+            when DEBUG  { return 'DEBUG'; }
+            when else   { return 'UNSPECIFIED'; }
+        }
+    }
+    // Exception to string
     public static String toString(KJ_Tool_Exception e){
         String result;
         result = 'EXCEPTION:\n';
@@ -102,8 +97,8 @@ public with sharing class KJ_Tool_Formatter {
         }
     }
 
-    //* To KJ_Tool_LogEntry
-    public KJ_Tool_LogEntry toLogEntry(KJ_Tool_Exception e){
+    //* toLogEntry()
+    public static KJ_Tool_LogEntry toLogEntry(KJ_Tool_Exception e){
         KJ_Tool_LogEntry result = new KJ_Tool_LogEntry(
             KJ_Tool_LogEntry.mapToLogEntryLevel(e.level),
             e.origin,

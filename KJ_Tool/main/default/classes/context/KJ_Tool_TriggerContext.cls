@@ -6,7 +6,6 @@
 
 */
 public with sharing class KJ_Tool_TriggerContext {
-
     //*-- Member Variables ------------------------------------------------------------------------
     public Boolean isAfter      { get; private set; }
     public Boolean isBefore     { get; private set; }

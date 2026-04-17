@@ -8,6 +8,7 @@
 public with sharing class KJ_Tool_Origin {
     //*-- Constants -------------------------------------------------------------------------------
     public enum SourceType{
+        UNSPECIFIED,
         APEX,
         RECORD
     }
@@ -21,11 +22,12 @@ public with sharing class KJ_Tool_Origin {
     public Id recordId              { get; private set; }
 
     //*-- Member Methods --------------------------------------------------------------------------
+    // Base factory method
     private static KJ_Tool_Origin build(SourceType newSourceType, String newFileName, String newClassName, String newMethodName, String newObjectName, String newRecordId){
         KJ_Tool_Origin newOrigin = new KJ_Tool_Origin();
 
         newOrigin.sourceType = newSourceType;
-        newOrigin.className = newFileName;
+        newOrigin.fileName = newFileName;
         newOrigin.className = newClassName;
         newOrigin.methodName = newMethodName;
         newOrigin.recordId = newRecordId;
@@ -56,5 +58,17 @@ public with sharing class KJ_Tool_Origin {
             recordId
         );
         return newOrigin; 
+    }
+
+    public static KJ_Tool_Origin fromUnspecified(){
+        KJ_Tool_Origin newOrigin = KJ_Tool_Origin.build(
+            SourceType.UNSPECIFIED,
+            null,
+            null,
+            null,
+            null,
+            null
+        );
+        return newOrigin;
     }
 }
