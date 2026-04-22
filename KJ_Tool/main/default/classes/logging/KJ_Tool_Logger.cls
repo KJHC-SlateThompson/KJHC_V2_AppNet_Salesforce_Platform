@@ -65,7 +65,7 @@ public with sharing class KJ_Tool_Logger {
 
     // Universal logging method
     public static void log(KJ_Tool_LogEntry logEntry){
-        String logEntryOutputString = KJ_Tool_Formatter.toString(logEntry); // will translate log entry to string using method here
+        String logEntryOutputString = KJ_Tool_Formatter.toString(logEntry);
         LoggingLevel logEntryLevel = KJ_Tool_LogEntry.mapToLoggingLevel(logEntry.getLevel());
 
         System.debug(logEntryLevel, logEntryOutputString);
