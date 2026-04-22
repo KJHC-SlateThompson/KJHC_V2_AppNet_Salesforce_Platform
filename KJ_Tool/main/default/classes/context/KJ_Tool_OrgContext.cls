@@ -10,6 +10,8 @@ public with sharing class KJ_Tool_OrgContext {
     public enum OrgType{
             PRODUCTION,
             SANDBOX
+            SCRATCH
+            DEVELOPER
     }
     //*-- Member Variables ------------------------------------------------------------------------
     public Id       orgId           { get; private set; }
@@ -33,7 +35,6 @@ public with sharing class KJ_Tool_OrgContext {
  
         newContext.instanceUrl   = URL.getOrgDomainUrl().toExternalForm();
         newContext.orgType       = IsSandbox ? OrgType.SANDBOX : OrgType.PRODUCTION;
-
  
         return newContext;
     }
