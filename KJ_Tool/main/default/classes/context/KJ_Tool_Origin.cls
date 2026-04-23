@@ -22,16 +22,25 @@ public with sharing class KJ_Tool_Origin {
     public Id recordId              { get; private set; }
 
     //*-- Member Methods --------------------------------------------------------------------------
+    // constructor
+    public KJ_Tool_Origin(){
+        this.sourceType = SourceType.UNSPECIFIED;
+        this.filename = '';
+        this.className = '';
+        this.methodName = '';
+        this.objectName = '';
+    }
     // Base factory method
     private static KJ_Tool_Origin build(SourceType newSourceType, String newFileName, String newClassName, String newMethodName, String newObjectName, String newRecordId){
         KJ_Tool_Origin newOrigin = new KJ_Tool_Origin();
 
-        newOrigin.sourceType = newSourceType;
-        newOrigin.fileName = newFileName;
-        newOrigin.className = newClassName;
-        newOrigin.methodName = newMethodName;
-        newOrigin.recordId = newRecordId;
-        newOrigin.objectName = newObjectName;
+        newOrigin.sourceType    = newSourceType ?? newOrigin.sourceType;
+        newOrigin.fileName      = newFileName   ?? newOrigin.fileName;
+        newOrigin.className     = newClassName  ?? newOrigin.className;
+        newOrigin.methodName    = newMethodName ?? newOrigin.methodName;
+        newOrigin.recordId      = newRecordId   ?? newOrigin.recordId;
+        newOrigin.objectName    = newObjectName ?? newOrigin.objectName;
+        newOrigin.RecordId      = newRecordId   ?? newOrigin.RecordId;
         
         return newOrigin;
     }
@@ -58,17 +67,5 @@ public with sharing class KJ_Tool_Origin {
             recordId
         );
         return newOrigin; 
-    }
-
-    public static KJ_Tool_Origin fromUnspecified(){
-        KJ_Tool_Origin newOrigin = KJ_Tool_Origin.build(
-            SourceType.UNSPECIFIED,
-            null,
-            null,
-            null,
-            null,
-            null
-        );
-        return newOrigin;
     }
 }

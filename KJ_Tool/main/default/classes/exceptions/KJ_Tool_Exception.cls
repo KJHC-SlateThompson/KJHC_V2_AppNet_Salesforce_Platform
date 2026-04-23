@@ -8,7 +8,8 @@
 public with sharing class KJ_Tool_Exception extends Exception{
     //*-- Constants -------------------------------------------------------------------------------
     public enum Code {
-        TEST_EXCEPTION,
+        DEFAULT_CODE,
+        TEST_EXCEPTION
     }
 
     public enum Level {
@@ -24,14 +25,21 @@ public with sharing class KJ_Tool_Exception extends Exception{
     public KJ_Tool_Origin   origin      { get; private set; }
 
     //*-- Member Methods --------------------------------------------------------------------------
+    // constructor
+    public KJ_Tool_Exception(){
+        this.code = Code.DEFAULT_CODE;
+        this.level = Level.LOW;
+        this.message = '';
+        this.origin = new KJ_Tool_Origin();
+    }
     // factory methods
-    private static KJ_Tool_Exception build(Code newCode, Level newLevel, String newMessage, KJ_Tool_Origin newOrigin){
+    public static KJ_Tool_Exception build(Code newCode, Level newLevel, String newMessage, KJ_Tool_Origin newOrigin){
         KJ_Tool_Exception newException = new KJ_Tool_Exception();
 
-        newException.code = newCode;
-        newException.level = newLevel;
-        newException.message = newMessage;
-        newException.origin = newOrigin;
+        newException.code       = newCode       ?? newException.code;
+        newException.level      = newLevel      ?? newException.level;
+        newException.message    = newMessage    ?? newException.message;
+        newException.origin     = newOrigin     ?? newException.origin;
 
         return newException;
     }
@@ -58,10 +66,16 @@ public with sharing class KJ_Tool_Exception extends Exception{
     }
 
     // Setters
+    public void setLevel(Code newCode){
+        this.code = newCode ?? this.code;
+    } 
+    public void setLevel(Level newLevel){
+        this.level = newLevel ?? this.level;
+    } 
     public override void setMessage(String newMessage){
-        message = newMessage;
+        this.message = newMessage ?? this.message;
     }
     public void setOrigin(KJ_Tool_Origin newOrigin){
-        origin = newOrigin;
+        this.origin = newOrigin ?? this.origin;
     }
 }

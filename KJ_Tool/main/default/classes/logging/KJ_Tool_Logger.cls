@@ -8,12 +8,8 @@
 public with sharing class KJ_Tool_Logger {
     //*-- Member Methods --------------------------------------------------------------------------
     // Level based logging methods
-    public static void debug(KJ_Tool_Origin origin, String message){
-        KJ_Tool_LogEntry logEntry = new KJ_Tool_LogEntry(
-            KJ_Tool_LogEntry.Level.DEBUG,
-            origin,
-            message
-        );
+    public static void debug(String message, KJ_Tool_Origin origin){
+        KJ_Tool_LogEntry logEntry = KJ_Tool_LogEntry.debug(message, origin)
         log(logEntry);
     }
     public static void debug(String message){
