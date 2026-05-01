@@ -19,7 +19,7 @@ public with sharing class KJ_Tool_LogEntry {
             when LOW    { return Level.WARN; }
             when HIGH   { return Level.ERROR; }
             when FATAL  { return Level.ERROR; }
-            when else   { return KJ_Tool_LogEntry.Level.ERROR; }
+            when else   { return Level.ERROR; }
         }
     }
     public static Level mapToLogEntryLevel(LoggingLevel logLevel){
@@ -93,7 +93,6 @@ public with sharing class KJ_Tool_LogEntry {
     public static KJ_Tool_LogEntry error(String initMessage){
         return build(Level.ERROR, null, null, initMessage);
     }
-
 
     
     // Mutators

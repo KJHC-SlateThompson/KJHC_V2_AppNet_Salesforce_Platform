@@ -11,11 +11,11 @@ public with sharing class KJ_Tool_UserContext {
     public String   userName    { get; private set; }
     public String   userEmail   { get; private set; }
 
-    public Id profileId { get; private set; }
-    public String profileName { get; private set; }
+    public Id       profileId   { get; private set; }
+    public String   profileName { get; private set; }
 
-    public Id roleId { get; private set; }
-    public String roleName { get; private set; }
+    public Id       roleId      { get; private set; }
+    public String   roleName    { get; private set; }
 
     //*-- Member Methods --------------------------------------------------------------------------
     // factory method

@@ -26,36 +26,23 @@ public with sharing class KJ_Tool_Formatter {
         String result;
         result = '\n\n\nL O G   E N T R Y' + VERTICAL_DELIMITER;
 
-
         result += 'Level: ';
-        result += toString(logEntry.getLevel());
+        result += toString(logEntry.level);
         result += HORIZONTAL_DELIMITER;
  
 
         result += 'Origin: ';
-        result += toString(logEntry.getOrigin());
+        result += toString(logEntry.origin);
         result += HORIZONTAL_DELIMITER;
     
 
         result += 'Timestamp: ';
-        Datetime logEntryTimestamp = logEntry.getTimestamp();
-        if(logEntryTimestamp != null){
-            result += logEntryTimestamp.format();
-        } 
-        else{
-            result += 'UNSPECIFIED';
-        }
+        result += (logEntry.timestamp != null) ? logEntry.timestamp.format() : 'UNSPECIFIED';
         result += HORIZONTAL_DELIMITER + '\n\n'; //end of line 1 of log entry string
 
 
         result += 'Message: \n';
-        String logEntryMessage = logEntry.getMessage();
-        if(logEntryMessage != null){
-            result += logEntryMessage;
-        } 
-        else {
-            result += 'UNSPECIFIED';
-        }
+        result += logEntry.message ?? 'Message contained NULL value';
         result += VERTICAL_DELIMITER;
 
 
@@ -69,6 +56,23 @@ public with sharing class KJ_Tool_Formatter {
             when DEBUG  { return 'DEBUG'; }
             when else   { return 'UNSPECIFIED'; }
         }
+    }
+    // Result to string
+    public static String toString(KJ_Tool_Result targetResult){
+        String result;
+        result = 'RESULT: \n';
+
+        result += 'Is Success: ' + (targetResult.isSuccess ? 'TRUE' : 'FALSE') + '\n';
+        result += 'Message: ' + targetResult.message + '\n\n';
+        
+        result += 'Exception count: ' targetResult.exceptions.size() + '\n';
+        result += 'Has Fatals: ' + (targetResult.hasFatals ? 'TRUE' : 'FALSE' ) + '\n';
+        result += 'Has Highs: ' + (targetResult.hasHighs ? 'TRUE' : 'FALSE') + '\n';
+        result += 'Has Lows: ' + (targetResult.hasLows ? 'TRUE' : 'FALSE') + '\n\n';
+
+        result += 'Origin: ' + toString(targetResult.origin) + '\n';
+
+        return result;
     }
     // Exception to string
     public static String toString(KJ_Tool_Exception e){
@@ -85,6 +89,7 @@ public with sharing class KJ_Tool_Formatter {
      public static String toString(KJ_Tool_Exception.Code targetCode){
         switch on targetCode{
             when TEST_EXCEPTION { return 'TEST_EXCEPTION'; }
+            when DEFUALT_CODE   { return 'DEFAULT_CODE'; }
             when else           { return 'UNSPECIFIED'; }
         }
     }
@@ -104,7 +109,6 @@ public with sharing class KJ_Tool_Formatter {
             e.origin,
             toString(e)
         );
-
         return result;
     }
 }

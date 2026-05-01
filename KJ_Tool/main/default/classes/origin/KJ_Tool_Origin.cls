@@ -14,12 +14,14 @@ public with sharing class KJ_Tool_Origin {
     }
 
     //*-- Member Variables ------------------------------------------------------------------------
-    public SourceType sourceType    { get; private set; }
-    public String fileName          { get; private set; }
-    public String className         { get; private set; }
-    public String methodName        { get; private set; }
-    public String objectName        { get; private set; }
-    public Id recordId              { get; private set; }
+    public SourceType   sourceType    { get; private set; }
+
+    public String       fileName      { get; private set; }
+    public String       className     { get; private set; }
+    public String       methodName    { get; private set; }
+
+    public String       objectName    { get; private set; }
+    public Id           recordId      { get; private set; }
 
     //*-- Member Methods --------------------------------------------------------------------------
     // constructor

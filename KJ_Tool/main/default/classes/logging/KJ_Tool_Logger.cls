@@ -7,64 +7,55 @@
 */
 public with sharing class KJ_Tool_Logger {
     //*-- Member Methods --------------------------------------------------------------------------
+
     // Level based logging methods
     public static void debug(String message, KJ_Tool_Origin origin){
         KJ_Tool_LogEntry logEntry = KJ_Tool_LogEntry.debug(message, origin)
         log(logEntry);
     }
     public static void debug(String message){
-        debug(null, message);
+        debug(message, null);
     }
 
-    public static void info(KJ_Tool_Origin origin, String message){
-        KJ_Tool_LogEntry logEntry = new KJ_Tool_LogEntry(
-            KJ_Tool_LogEntry.Level.INFO,
-            origin,
-            message
-        );
+
+    public static void info(String message, KJ_Tool_Origin origin){
+        KJ_Tool_LogEntry logEntry = KJ_Tool_LogEntry.info(message, origin);
         log(logEntry);
     }
     public static void info(String message){
-        info(null, message);
+        info(message, null);
     }
 
-    public static void warn(KJ_Tool_Origin origin, String message){
-        KJ_Tool_LogEntry logEntry = new KJ_Tool_LogEntry(
-            KJ_Tool_LogEntry.Level.WARN,
-            origin,
-            message
-        );
+
+    public static void warn(String message, KJ_Tool_Origin origin){
+        KJ_Tool_LogEntry logEntry = new KJ_Tool_LogEntry.WARN(message, origin);
         log(logEntry);
     }
     public static void warn(String message){
-        warn(null, message);
+        warn(message, null);
     }
     public static void warn(KJ_Tool_Exception e){
-        warn(e.origin, KJ_Tool_Formatter.toString(e));
+        warn(KJ_Tool_Formatter.toString(e), e.origin);
     }
 
-    public static void error(KJ_Tool_Origin origin, String message){
-        KJ_Tool_LogEntry logEntry = new KJ_Tool_LogEntry(
-            KJ_Tool_LogEntry.Level.ERROR,
-            origin,
-            message
-        );
+    
+    public static void error(String message, KJ_Tool_Origin origin){
+        KJ_Tool_LogEntry logEntry = new KJ_Tool_LogEntry.ERROR(message, origin);
         log(logEntry);
     }
     public static void error(String message){
-        error(null, message);
+        error(message, null);
     }
     public static void error(KJ_Tool_Exception e){
-        error(e.origin, KJ_Tool_Formatter.toString(e));
+        error(KJ_Tool_Formatter.toString(e), e.origin);
     }
 
 
     // Universal logging method
     public static void log(KJ_Tool_LogEntry logEntry){
         String logEntryOutputString = KJ_Tool_Formatter.toString(logEntry);
-        LoggingLevel logEntryLevel = KJ_Tool_LogEntry.mapToLoggingLevel(logEntry.getLevel());
+        LoggingLevel logEntryLevel = KJ_Tool_LogEntry.mapToLoggingLevel(logEntry.level);
 
         System.debug(logEntryLevel, logEntryOutputString);
     }
-
 }

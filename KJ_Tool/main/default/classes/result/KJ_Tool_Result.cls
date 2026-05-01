@@ -32,44 +32,50 @@ public with sharing class KJ_Tool_Result {
     }
 
     // factory methods
-    public static KJ_Tool_Result build(Boolean isSuccess, String message, List<KJ_Tool_Exception> exceptions){
+    public static KJ_Tool_Result build(Boolean isSuccess, String message, List<KJ_Tool_Exception> exceptions, KJ_Tool_Origin origin){
         KJ_Tool_Result newResult = new KJ_Tool_Result();
 
         newResult.isSuccess     = isSuccess     ?? newResult.isSuccess;
         newResult.message       = message       ?? newResult.message;
         newResult.exceptions    = exceptions    ?? newResult.exceptions;
+        newResult.origin        = origin        ?? newResult.origin;
 
         newResult.updateFlags();
 
         return newResult;
     }
-    
+    public static KJ_Tool_Result build(Boolean isSuccess, String message, KJ_Tool_Exception e, KJ_Tool_Origin origin){
+        return build(isSuccess, message, new List<KJ_Tool_Exception>{e}, origin);
+    }
+    public static KJ_Tool_Result build(Boolean isSuccess, String message, List<KJ_Tool_Exception> exceptions){
+        return build(isSuccess, message, exceptions, null);
+    }
     public static KJ_Tool_Result build(Boolean isSuccess, String message, KJ_Tool_Exception e){
-        return build(isSuccess, message, new List<KJ_Tool_Exception>{e});
+        return build(isSuccess, message, new List<KJ_Tool_Exception>{e}, null);
     }
     public static KJ_Tool_Result build(Boolean isSuccess, String message){
-        return build(isSuccess, message, null);
+        return build(isSuccess, message, null, null);
     }
     public static KJ_Tool_Result build(Boolean isSuccess, List<KJ_Tool_Exception> exceptions){
-        return build(isSuccess, null, exceptions);
+        return build(isSuccess, null, exceptions, null);
     }
     public static KJ_Tool_Result build(String message, List<KJ_Tool_Exception> exceptions){
-        return build(null, message, exceptions);
+        return build(null, message, exceptions, null);
     }
     public static KJ_Tool_Result build(Boolean isSuccess, KJ_Tool_Exception e){
-        return build(isSuccess, null, new List<KJ_Tool_Exception>{e});
+        return build(isSuccess, null, new List<KJ_Tool_Exception>{e}, null);
     }
     public static KJ_Tool_Result build(String message, KJ_Tool_Exception e){
-        return build(null, message, new List<KJ_Tool_Exception>{e});
+        return build(null, message, new List<KJ_Tool_Exception>{e}, null);
     }
     public static KJ_Tool_Result build(Boolean isSuccess){
-        return build(isSuccess, null, null);
+        return build(isSuccess, null, null, null);
     }
     public static KJ_Tool_Result build(List<KJ_Tool_Exception> exceptions){
-        return build(null, null, exceptions);
+        return build(null, null, exceptions, null);
     }
     public static KJ_Tool_Result build(KJ_Tool_Exception e){
-        return build(null, null, new List<KJ_Tool_Exception>{e});
+        return build(null, null, new List<KJ_Tool_Exception>{e}, null);
     }
 
     // mutators
